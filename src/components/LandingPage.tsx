@@ -65,19 +65,19 @@ const LandingPage = () => {
     {
       name: "Sports Cars",
       count: 32,
-      image: "/sports-car.jpg",
+      image: "/Sports.jpg",
       description: "Feel the adrenaline with high-performance sports vehicles"
     },
     {
       name: "Electric Vehicles",
       count: 28,
-      image: "/electric-car.jpg",
+      image: "/Electric-car.jpg",
       description: "Embrace the future with our eco-friendly electric lineup"
     },
     {
       name: "SUVs",
       count: 50,
-      image: "/SUVs.jpg",
+      image: "/Suv.jpg",
       description: "Discover versatility and comfort in our SUV range"
     }
   ];
@@ -187,13 +187,6 @@ const LandingPage = () => {
               <NavLink href="#features">Features</NavLink>
               <NavLink href="#vehicles">Vehicles</NavLink>
               <NavLink href="#contact">Contact</NavLink>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-[#F79B72] text-white px-6 py-2 rounded-lg hover:bg-[#F79B72]/90 transition-colors"
-              >
-                Get Started
-              </motion.button>
             </div>
 
             {/* Mobile Menu Button */}
@@ -318,15 +311,14 @@ const LandingPage = () => {
           </motion.div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {vehicleCategories.map((category, index) => (
-  <motion.div
+ <motion.div
     key={index}
     initial={{ opacity: 0, scale: 0.8 }}
     whileInView={{ opacity: 1, scale: 1 }}
     viewport={{ once: true }}
     transition={{ 
-      delay: index * 0.2,
-      duration: 0.5,
-      type: "spring",
+      delay: index * 0.1,
+      duration: 0.2,
       stiffness: 100
     }}
     whileHover={{ 
@@ -344,9 +336,15 @@ const LandingPage = () => {
         src={category.image}
         alt={category.name}
         fill
+        quality={100}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
         priority={index === 0}
-        className="object-cover"
+        className="object-cover transform transition-transform duration-300"
+        style={{ 
+          transform: 'translate3d(0, 0, 0)',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden'
+        }}
       />
     </motion.div>
     <motion.div 
