@@ -300,55 +300,75 @@ const LandingPage = () => {
       </section>
 
       {/* Vehicle Categories */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+      <section className="py-20 bg-[#121212]">
+        
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                   <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-[#2A4759] mb-4">
+            <h2 className="text-4xl font-bold text-[#F79B72] mb-4">
               Explore Our Collection
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-gray-300">
               Find the perfect vehicle that matches your lifestyle
             </p>
           </motion.div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {vehicleCategories.map((category, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group relative overflow-hidden rounded-xl"
-              >
-                <div className="aspect-w-16 aspect-h-9 relative h-[250px]">
-                  <Image
-                    src={category.image}
-                    alt={category.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    priority={index === 0}
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-6 flex flex-col justify-end">
-                  <h3 className="text-xl font-bold text-white mb-2">{category.name}</h3>
-                  <p className="text-gray-200 text-sm mb-2">{category.description}</p>
-                  <span className="text-[#F79B72]">{category.count} vehicles</span>
-                </div>
-              </motion.div>
-            ))}
+  <motion.div
+    key={index}
+    initial={{ opacity: 0, scale: 0.8 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    viewport={{ once: true }}
+    transition={{ 
+      delay: index * 0.2,
+      duration: 0.5,
+      type: "spring",
+      stiffness: 100
+    }}
+    whileHover={{ 
+      scale: 1.05,
+      transition: { duration: 0.2 }
+    }}
+    className="group relative overflow-hidden rounded-xl cursor-pointer"
+  >
+    <motion.div 
+      className="aspect-w-16 aspect-h-9 relative h-[250px]"
+      whileHover={{ scale: 1.1 }}
+      transition={{ duration: 0.4 }}
+    >
+      <Image
+        src={category.image}
+        alt={category.name}
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+        priority={index === 0}
+        className="object-cover"
+      />
+    </motion.div>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 }}
+      className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 flex flex-col justify-end"
+    >
+      <h3 className="text-xl font-bold text-white mb-2">{category.name}</h3>
+      <p className="text-gray-200 text-sm mb-2 transform translate-y-0 group-hover:translate-y-0 transition-transform duration-300">
+        {category.description}
+      </p>
+      <span className="text-[#F79B72] font-semibold">{category.count} vehicles</span>
+    </motion.div>
+  </motion.div>
+))}
           </div>
         </div>
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-[#2A4759]">
+      <section className="py-20 bg-[#121212]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -356,7 +376,7 @@ const LandingPage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-white mb-4">
+            <h2 className="text-4xl font-bold text-[#F79B72] mb-4">
               How It Works
             </h2>
             <p className="text-xl text-gray-300">
@@ -366,25 +386,50 @@ const LandingPage = () => {
 
           <div className="grid md:grid-cols-4 gap-8">
             {processes.map((process, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-4xl font-bold text-[#F79B72] mb-4">{process.step}</div>
-                <h3 className="text-xl font-bold text-white mb-2">{process.title}</h3>
-                <p className="text-gray-300">{process.description}</p>
-              </motion.div>
-            ))}
+  <motion.div
+    key={index}
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ 
+      delay: index * 0.1,
+      duration: 0.1,
+    
+      stiffness: 100 
+    }}
+    whileHover={{ 
+      scale: 1.05,
+      y: -10,
+      transition: {
+        duration: 0.1,
+        ease: [0.23, 1, 0.32, 1]
+      },
+      boxShadow: "0 20px 25px -5px rgba(247, 155, 114, 0.1), 0 10px 10px -5px rgba(247, 155, 114, 0.04)"
+    }}
+    className="text-center bg-black/40 p-8 rounded-xl transition-all duration-300 border border-[#F79B72]/20 hover:border-[#F79B72]/50"
+  >
+    <motion.div
+      initial={{ scale: 0.5 }}
+      whileInView={{ scale: 1 }}
+      transition={{ delay: index * 0.2 + 0.3 }}
+      className="text-4xl font-bold text-[#F79B72] mb-4"
+    >
+      {process.step}
+    </motion.div>
+    <h3 className="text-xl font-bold text-[#F79B72] mb-2">
+      {process.title}
+    </h3>
+    <p className="text-gray-300">
+      {process.description}
+    </p>
+  </motion.div>
+))}
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 bg-gray-50">
+<section className="py-20 bg-[#121212]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -392,25 +437,44 @@ const LandingPage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-[#2A4759] mb-4">
+            <h2 className="text-4xl font-bold text-[#F79B72] mb-4">
               What Our Clients Say
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-gray-300">
               Read about experiences from our satisfied customers
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white p-8 rounded-xl shadow-lg"
-              >
-                <div className="flex items-center mb-6">
+           {testimonials.map((testimonial, index) => (
+  <motion.div
+    key={index}
+    initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    transition={{ 
+      delay: index * 0.1,
+      duration: 0.1,
+      stiffness: 100
+    }}
+    whileHover={{ 
+      scale: 1.03,
+      y: -5,
+      transition: {
+        duration: 0.1,
+        ease: [0.23, 1, 0.32, 1]
+      },
+      boxShadow: "0 25px 30px -12px rgba(247, 155, 114, 0.15)"
+    }}
+    className="bg-black/40 p-8 rounded-xl shadow-lg transition-all duration-500 border border-[#F79B72]/20 hover:border-[#F79B72]/50 hover:bg-black/70"
+  >
+    <motion.div 
+      initial={{ scale: 0.8, opacity: 0 }}
+      whileInView={{ scale: 1, opacity: 1 }}
+      transition={{ delay: index * 0.3 + 0.2 }}
+      className="flex items-center mb-6"
+    >
+    <div className="flex items-center mb-6">
                   <div className="w-12 h-12 rounded-full overflow-hidden mr-4 relative">
                     <Image
                       src={testimonial.image}
@@ -420,13 +484,14 @@ const LandingPage = () => {
                     />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-[#2A4759]">{testimonial.name}</h3>
-                    <p className="text-gray-600">{testimonial.role}</p>
+                    <h3 className="text-lg font-bold text-[#F79B72]">{testimonial.name}</h3>
+                    <p className="text-gray-300">{testimonial.role}</p>
                   </div>
                 </div>
-                <p className="text-gray-700 italic">{testimonial.comment}</p>
-              </motion.div>
-            ))}
+                <p className="text-gray-300 italic">{testimonial.comment}</p>
+    </motion.div>
+  </motion.div>
+))}
           </div>
         </div>
       </section>
@@ -440,3 +505,4 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
