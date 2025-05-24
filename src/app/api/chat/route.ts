@@ -30,6 +30,13 @@ async function getTitanEmbedding(text: string): Promise<number[]> {
   return json.embedding;
 }
 
+// at the top of src/app/api/chat/route.ts
+
+export async function GET() {
+  return NextResponse.json({ alive: true });
+}
+
+
 export async function POST(request: NextRequest) {
   try {
     const { query } = (await request.json()) as { query?: string };
