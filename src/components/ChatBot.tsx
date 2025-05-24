@@ -303,7 +303,7 @@ const ChatBot = () => {
     setIsTyping(true);
 
     try {
-      const res = await fetch('https://auto-vibe-neon.vercel.app/api/chat', {
+      const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: trimmed })
