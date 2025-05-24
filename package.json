@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.817.0",
     "@heroicons/react": "^2.2.0",
+    "@pinecone-database/pinecone": "^6.0.1",
     "@react-three/drei": "^10.0.8",
     "@react-three/fiber": "^9.1.2",
     "framer-motion": "^12.12.1",
@@ -18,7 +20,8 @@
     "next": "15.1.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "three": "^0.176.0"
+    "three": "^0.176.0",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",
