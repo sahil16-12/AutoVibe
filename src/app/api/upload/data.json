@@ -1,0 +1,352 @@
+[
+  {
+    "id": "car-1",
+    "text": "Maruti Brezza (2023) is an SUV priced at ₹9,50,000 with a mileage of 19.8 kmpl. It runs on Petrol with a Manual transmission. Features include ABS, Dual Airbags, Touchscreen Infotainment, Reverse Camera. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Maruti",
+      "model": "Brezza",
+      "year": 2023,
+      "type": "SUV",
+      "price": "₹9,50,000",
+      "mileage": "19.8 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Manual",
+      "features": ["ABS", "Dual Airbags", "Touchscreen Infotainment", "Reverse Camera"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-2",
+    "text": "Hyundai i20 (2023) is a Hatchback priced at ₹8,20,000 delivering 20.3 kmpl. It runs on Petrol with Automatic transmission. Features include Cruise Control, Sunroof, Android Auto, 6 Airbags. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Hyundai",
+      "model": "i20",
+      "year": 2023,
+      "type": "Hatchback",
+      "price": "₹8,20,000",
+      "mileage": "20.3 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Automatic",
+      "features": ["Cruise Control", "Sunroof", "Android Auto", "6 Airbags"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-3",
+    "text": "Tata Punch (2024) is a Compact SUV priced at ₹7,50,000 with 18.8 kmpl mileage. Petrol, Manual transmission. Features: Hill Hold Assist, Dual Airbags, Rear Parking Sensors. Availability: Out of stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Tata",
+      "model": "Punch",
+      "year": 2024,
+      "type": "Compact SUV",
+      "price": "₹7,50,000",
+      "mileage": "18.8 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Manual",
+      "features": ["Hill Hold Assist", "Dual Airbags", "Rear Parking Sensors"],
+      "availability": false
+    }
+  },
+  {
+    "id": "car-4",
+    "text": "Kia Seltos (2024) SUV priced at ₹10,50,000, mileage 17.5 kmpl. Petrol, Automatic. Features include Wireless Charger, Ventilated Seats, 360° Camera. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Kia",
+      "model": "Seltos",
+      "year": 2024,
+      "type": "SUV",
+      "price": "₹10,50,000",
+      "mileage": "17.5 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Automatic",
+      "features": ["Wireless Charger", "Ventilated Seats", "360° Camera"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-5",
+    "text": "Mahindra XUV300 (2023) Compact SUV at ₹8,90,000 with 18.2 kmpl mileage. Diesel, Manual transmission. Features: ESC, 6 Airbags, Panoramic Sunroof. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Mahindra",
+      "model": "XUV300",
+      "year": 2023,
+      "type": "Compact SUV",
+      "price": "₹8,90,000",
+      "mileage": "18.2 kmpl",
+      "fuel": "Diesel",
+      "transmission": "Manual",
+      "features": ["ESC", "6 Airbags", "Panoramic Sunroof"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-6",
+    "text": "Toyota Urban Cruiser (2023) SUV priced at ₹9,80,000, mileage 17.9 kmpl. Petrol, Automatic. Features: Toyota Safety Sense, Apple CarPlay, Lane Departure Alert. Availability: Out of stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Toyota",
+      "model": "Urban Cruiser",
+      "year": 2023,
+      "type": "SUV",
+      "price": "₹9,80,000",
+      "mileage": "17.9 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Automatic",
+      "features": ["Toyota Safety Sense", "Apple CarPlay", "Lane Departure Alert"],
+      "availability": false
+    }
+  },
+  {
+    "id": "car-7",
+    "text": "Maruti Swift (2024) Hatchback at ₹6,20,000, mileage 21.2 kmpl. Petrol, Manual. Features: ABS, Dual Airbags, SmartPlay Studio. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Maruti",
+      "model": "Swift",
+      "year": 2024,
+      "type": "Hatchback",
+      "price": "₹6,20,000",
+      "mileage": "21.2 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Manual",
+      "features": ["ABS", "Dual Airbags", "SmartPlay Studio"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-8",
+    "text": "Ford EcoSport (2023) Compact SUV priced at ₹9,20,000 with 15.0 kmpl. Diesel, Manual. Features: Terrain Management, FordPass Connect, 6 Airbags. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Ford",
+      "model": "EcoSport",
+      "year": 2023,
+      "type": "Compact SUV",
+      "price": "₹9,20,000",
+      "mileage": "15.0 kmpl",
+      "fuel": "Diesel",
+      "transmission": "Manual",
+      "features": ["Terrain Management", "FordPass Connect", "6 Airbags"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-9",
+    "text": "Honda Jazz (2023) Hatchback at ₹8,50,000, mileage 18.4 kmpl. Petrol, CVT. Features: Magic Seats, Honda Connect, Dual Front Airbags. Availability: Out of stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Honda",
+      "model": "Jazz",
+      "year": 2023,
+      "type": "Hatchback",
+      "price": "₹8,50,000",
+      "mileage": "18.4 kmpl",
+      "fuel": "Petrol",
+      "transmission": "CVT",
+      "features": ["Magic Seats", "Honda Connect", "Dual Front Airbags"],
+      "availability": false
+    }
+  },
+  {
+    "id": "car-10",
+    "text": "Volkswagen Taigun (2024) SUV priced at ₹11,00,000, mileage 16.5 kmpl. Petrol, Automatic. Features: Digital Cockpit, Park Assist, 6 Airbags. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Volkswagen",
+      "model": "Taigun",
+      "year": 2024,
+      "type": "SUV",
+      "price": "₹11,00,000",
+      "mileage": "16.5 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Automatic",
+      "features": ["Digital Cockpit", "Park Assist", "6 Airbags"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-11",
+    "text": "Skoda Slavia (2023) Sedan at ₹10,20,000 with 18.0 kmpl mileage. Petrol, Manual. Features: Virtual Cockpit, LED Headlamps, Airbags x6. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Skoda",
+      "model": "Slavia",
+      "year": 2023,
+      "type": "Sedan",
+      "price": "₹10,20,000",
+      "mileage": "18.0 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Manual",
+      "features": ["Virtual Cockpit", "LED Headlamps", "Airbags x6"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-12",
+    "text": "Renault Kiger (2024) Compact SUV priced at ₹7,20,000, mileage 20.5 kmpl. Petrol, Manual. Features: Digital Instrument Cluster, Cruise Control. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Renault",
+      "model": "Kiger",
+      "year": 2024,
+      "type": "Compact SUV",
+      "price": "₹7,20,000",
+      "mileage": "20.5 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Manual",
+      "features": ["Digital Instrument Cluster", "Cruise Control"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-13",
+    "text": "MG Hector (2023) SUV at ₹13,00,000 with 14.2 kmpl mileage. Petrol, Automatic. Features: 360° Camera, Panoramic Sunroof, 6 Airbags. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "MG",
+      "model": "Hector",
+      "year": 2023,
+      "type": "SUV",
+      "price": "₹13,00,000",
+      "mileage": "14.2 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Automatic",
+      "features": ["360° Camera", "Panoramic Sunroof", "6 Airbags"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-14",
+    "text": "Nissan Magnite (2024) Compact SUV priced at ₹6,80,000, mileage 20.0 kmpl. Petrol, Manual. Features: LED DRLs, ESC, Dual Airbags. Availability: Out of stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Nissan",
+      "model": "Magnite",
+      "year": 2024,
+      "type": "Compact SUV",
+      "price": "₹6,80,000",
+      "mileage": "20.0 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Manual",
+      "features": ["LED DRLs", "ESC", "Dual Airbags"],
+      "availability": false
+    }
+  },
+  {
+    "id": "car-15",
+    "text": "Volkswagen Polo (2023) Hatchback at ₹7,50,000 with 19.2 kmpl mileage. Petrol, Manual. Features: Touchscreen, ABS, Dual Airbags. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Volkswagen",
+      "model": "Polo",
+      "year": 2023,
+      "type": "Hatchback",
+      "price": "₹7,50,000",
+      "mileage": "19.2 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Manual",
+      "features": ["Touchscreen", "ABS", "Dual Airbags"],
+      "availability": true
+    }
+  },
+  {
+    "id": "faq-1",
+    "text": "Which cars are available right now?\nAnswer: Currently available models are: Brezza, i20, Seltos, XUV300, Swift, EcoSport, Taigun, Slavia, Kiger, Hector, and Polo.",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-2",
+    "text": "Is the Tata Punch available?\nAnswer: No, the Tata Punch is currently out of stock. You can ask me to notify you when it's back in stock!",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-3",
+    "text": "How much does the Hyundai i20 cost?\nAnswer: The 2023 Hyundai i20 is priced at ₹8,20,000.",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-4",
+    "text": "What is the mileage of the Skoda Slavia?\nAnswer: The Skoda Slavia offers a mileage of 18.0 kmpl in its petrol manual variant.",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-5",
+    "text": "Do you have electric cars?\nAnswer: At the moment we do not stock any electric vehicles, but we can notify you when we get them!",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-6",
+    "text": "How do I book a test drive?\nAnswer: I can help you book a test drive. Please provide your name, contact number, car model, preferred date (YYYY-MM-DD), and time (HH:MM).",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-7",
+    "text": "I want to book a test drive for Volkswagen Taigun.\nAnswer: Great choice! Please share your full name.",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-8",
+    "text": "My name is Priya Sharma.\nAnswer: Hi Priya! Could you please provide your contact number?",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-9",
+    "text": "My phone number is 9876543210.\nAnswer: Thanks! Which car model would you like to test drive?",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-10",
+    "text": "I'd like to test drive the Taigun.\nAnswer: Perfect. On which date would you like to schedule it? (Format: YYYY-MM-DD)",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-11",
+    "text": "2025-05-28.\nAnswer: Noted. At what time? (Format: HH:MM, e.g., 11:00)",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-12",
+    "text": "11:30\nAnswer: Thank you! Let me confirm—Priya Sharma, 9876543210, Volkswagen Taigun on 2025-05-28 at 11:30. Shall I finalize this booking?",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-13",
+    "text": "Yes, please finalize.\nAnswer: Your test drive is booked! We'll send a confirmation SMS shortly. Anything else I can help with?",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-14",
+    "text": "Can you compare Swift and Baleno?\nAnswer: Maruti Swift (₹6.2L, 21.2 kmpl) vs Maruti Baleno (₹7.1L, 22.0 kmpl). Swift is sportier; Baleno has more cabin space.",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-15",
+    "text": "What financing options do you offer?\nAnswer: We offer EMIs starting at 7.5% p.a. over 12-60 months. Typical down payment is 10-20%.",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-16",
+    "text": "How long does a test drive take?\nAnswer: Standard test drives last about 30 minutes, including a short showroom tour.",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-17",
+    "text": "Do I need to bring any documents?\nAnswer: Just your driver's license and a copy of your ID proof.",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-18",
+    "text": "Can I reschedule my test drive?\nAnswer: Yes—just let me know your booking ID or details, and I'll help you reschedule.",
+    "metadata": { "category": "faq" }
+  },
+  {
+    "id": "faq-19",
+    "text": "Thank you!\nAnswer: You're welcome! Feel free to ask anything else about our cars or services.",
+    "metadata": { "category": "faq" }
+  }
+]

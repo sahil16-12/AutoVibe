@@ -1,6 +1,7 @@
 // src/app/api/chat/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
+import path from "path";       
 import {
   BedrockRuntimeClient,
   InvokeModelCommand,
@@ -30,13 +31,6 @@ async function getTitanEmbedding(text: string): Promise<number[]> {
   return json.embedding;
 }
 
-// at the top of src/app/api/chat/route.ts
-
-export async function GET() {
-  return NextResponse.json({ alive: true });
-}
-
-
 export async function POST(request: NextRequest) {
   try {
     const { query } = (await request.json()) as { query?: string };
@@ -47,7 +41,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const kb = JSON.parse(fs.readFileSync("data.json", "utf8")) as Array<{
+    const dataPath = path.join(process.cwd(), "data.json");
+
+    const kb = JSON.parse(fs.readFileSync(dataPath, "utf8")) as Array<{
       text: string;
       metadata?: { category?: string };
     }>;

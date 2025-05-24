@@ -7,6 +7,7 @@ import {
   InvokeModelCommand,
 } from "@aws-sdk/client-bedrock-runtime";
 import { Pinecone } from "@pinecone-database/pinecone";
+import path from "path";
 
 const bedrockClient = new BedrockRuntimeClient({
   region: process.env.AWS_REGION,
@@ -33,7 +34,8 @@ async function getTitanEmbedding(text: string): Promise<number[]> {
 
 export async function GET() {
   try {
-    const raw = fs.readFileSync("data.json", "utf8");
+    const dataPath = path.join(process.cwd(), "data.json");
+    const raw = fs.readFileSync(dataPath, "utf8");
     const docs: Array<{ content?: string; text?: string; title?: string }> =
       JSON.parse(raw);
 
@@ -58,7 +60,8 @@ export async function GET() {
     }
 
     if (failures.length) {
-      fs.writeFileSync("vectors.json", JSON.stringify(failures, null, 2));
+      const dataPath = path.join(process.cwd(), "vectors.json");
+      fs.writeFileSync(dataPath, JSON.stringify(failures, null, 2));
     }
 
     return NextResponse.json({
