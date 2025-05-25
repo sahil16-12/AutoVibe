@@ -5,8 +5,9 @@ import { Mail, Phone, Send, Linkedin, Twitter, Instagram } from 'lucide-react';
 import { 
   Menu, X, ArrowRight, Zap, Shield, Users, Star, 
   Car, Award, PhoneCall, Clock, PlusCircle,
-  CheckCircle, Settings, DollarSign, MapPin 
+  CheckCircle, Settings, MapPin 
 } from 'lucide-react';
+import { Calculator, DollarSign, Calendar, Percent } from 'lucide-react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import ChatBot from './ChatBot';
@@ -139,6 +140,18 @@ const [carModels, setCarModels] = useState<string[]>([]);
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [selectedCategory, setSelectedCategory] = useState('');
 const [showScrollTop, setShowScrollTop] = useState(false);
+const [financingForm, setFinancingForm] = useState({
+  carPrice: '',
+  downPayment: '',
+  loanTerm: '36',
+  interestRate: '8.5'
+});
+
+const [emiResult, setEmiResult] = useState({
+  monthlyPayment: 0,
+  totalInterest: 0,
+  totalAmount: 0
+});
 type Vehicle = {
   id: string;
   text: string;
@@ -217,6 +230,31 @@ const [formData, setFormData] = useState({
   window.addEventListener('scroll', handleScroll);
   return () => window.removeEventListener('scroll', handleScroll);
 }, []);
+const calculateEMI = (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  const principal = Number(financingForm.carPrice) - Number(financingForm.downPayment);
+  const ratePerMonth = (Number(financingForm.interestRate) / 12) / 100;
+  const numberOfPayments = Number(financingForm.loanTerm);
+
+  const monthlyPayment = (principal * ratePerMonth * Math.pow(1 + ratePerMonth, numberOfPayments)) / 
+    (Math.pow(1 + ratePerMonth, numberOfPayments) - 1);
+
+  const totalAmount = monthlyPayment * numberOfPayments;
+  const totalInterest = totalAmount - principal;
+
+  setEmiResult({
+    monthlyPayment: Math.round(monthlyPayment),
+    totalInterest: Math.round(totalInterest),
+    totalAmount: Math.round(totalAmount)
+  });
+
+  setNotification({
+    message: 'EMI calculation completed!',
+    type: 'success',
+    isVisible: true
+  });
+};
 const handleCategoryClick = (category: string, type: string) => {
   const vehicles = carsData.filter(
     (car): car is Vehicle =>
@@ -389,7 +427,7 @@ const NavLink = ({ href, children }: { href: string, children: React.ReactNode }
               <NavLink href="#home">Home</NavLink>
               <NavLink href="#vehicles">Vehicles</NavLink>
               <NavLink href="#bookride">Book Ride</NavLink>
-
+              <NavLink href="#finance">Finance Calculator</NavLink>
               <NavLink href="#contact">Contact</NavLink>
             </div>
 
@@ -793,6 +831,176 @@ const NavLink = ({ href, children }: { href: string, children: React.ReactNode }
     </div>
   </div>
 </section>
+
+{/* Finance Calculator Section */}
+<section id='finance' className="py-20 bg-[#121212] relative overflow-hidden">
+  <div className="absolute inset-0 opacity-5">
+    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+  </div>
+
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="text-center mb-16"
+    >
+      <h2 className="text-4xl font-bold text-[#F79B72] mb-4">
+        Finance Calculator
+      </h2>
+      <p className="text-xl text-gray-300">
+        Plan your car purchase with our easy EMI calculator
+      </p>
+    </motion.div>
+
+    <div className="grid lg:grid-cols-2 gap-12">
+      {/* Calculator Form */}
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+      >
+        <form onSubmit={calculateEMI} className="space-y-6 bg-black/40 p-8 rounded-2xl border border-white/10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <label className="block text-[#F79B72] mb-2 text-sm">Car Price (₹)</label>
+            <div className="relative">
+              <DollarSign className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="number"
+                value={financingForm.carPrice}
+                onChange={(e) => setFinancingForm(prev => ({ ...prev, carPrice: e.target.value }))}
+                className="w-full p-4 pl-12 rounded-xl bg-black/40 border border-white/20 text-gray-300
+                  focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200"
+                placeholder="Enter car price"
+                required
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <label className="block text-[#F79B72] mb-2 text-sm">Down Payment (₹)</label>
+            <div className="relative">
+              <DollarSign className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="number"
+                value={financingForm.downPayment}
+                onChange={(e) => setFinancingForm(prev => ({ ...prev, downPayment: e.target.value }))}
+                className="w-full p-4 pl-12 rounded-xl bg-black/40 border border-white/20 text-gray-300
+                  focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200"
+                placeholder="Enter down payment"
+                required
+              />
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-2 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <label className="block text-[#F79B72] mb-2 text-sm">Loan Term (Months)</label>
+              <div className="relative">
+                <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <select
+                  value={financingForm.loanTerm}
+                  onChange={(e) => setFinancingForm(prev => ({ ...prev, loanTerm: e.target.value }))}
+                  className="w-full p-4 pl-12 rounded-xl bg-black/40 border border-white/20 text-gray-300
+                    focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200"
+                  required
+                >
+                  {[12, 24, 36, 48, 60].map(months => (
+                    <option key={months} value={months}>{months} months</option>
+                  ))}
+                </select>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <label className="block text-[#F79B72] mb-2 text-sm">Interest Rate (%)</label>
+              <div className="relative">
+                <Percent className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="number"
+                  value={financingForm.interestRate}
+                  onChange={(e) => setFinancingForm(prev => ({ ...prev, interestRate: e.target.value }))}
+                  className="w-full p-4 pl-12 rounded-xl bg-black/40 border border-white/20 text-gray-300
+                    focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200"
+                  step="0.1"
+                  required
+                />
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div className="flex justify-end">
+            <motion.button
+              type="submit"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-[#F79B72] text-white px-8 py-4 rounded-xl hover:bg-[#F79B72]/90 
+                transition-all duration-200 inline-flex items-center space-x-2"
+            >
+              <span>Calculate EMI</span>
+              <Calculator className="w-5 h-5" />
+            </motion.button>
+          </motion.div>
+        </form>
+      </motion.div>
+
+      {/* Results Display */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        className="space-y-6"
+      >
+        <div className="bg-black/40 p-8 rounded-2xl border border-white/10">
+          <h3 className="text-2xl font-bold text-[#F79B72] mb-8">Payment Summary</h3>
+          
+          <div className="space-y-6">
+            <div className="flex justify-between items-center p-4 bg-black/40 rounded-xl border border-white/10">
+              <div>
+                <p className="text-gray-400">Monthly EMI</p>
+                <p className="text-2xl font-bold text-white">₹{emiResult.monthlyPayment.toLocaleString()}</p>
+              </div>
+              <DollarSign className="w-8 h-8 text-[#F79B72]" />
+            </div>
+
+            <div className="flex justify-between items-center p-4 bg-black/40 rounded-xl border border-white/10">
+              <div>
+                <p className="text-gray-400">Total Interest</p>
+                <p className="text-2xl font-bold text-white">₹{emiResult.totalInterest.toLocaleString()}</p>
+              </div>
+              <Percent className="w-8 h-8 text-[#F79B72]" />
+            </div>
+
+            <div className="flex justify-between items-center p-4 bg-black/40 rounded-xl border border-white/10">
+              <div>
+                <p className="text-gray-400">Total Amount</p>
+                <p className="text-2xl font-bold text-white">₹{emiResult.totalAmount.toLocaleString()}</p>
+              </div>
+              <Calculator className="w-8 h-8 text-[#F79B72]" />
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  </div>
+</section>
+
       {/* Process Section */}
       <section className="py-20 bg-[#121212]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
