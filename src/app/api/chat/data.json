@@ -348,5 +348,10 @@
     "id": "faq-19",
     "text": "Thank you!\nAnswer: You're welcome! Feel free to ask anything else about our cars or services.",
     "metadata": { "category": "faq" }
+  },
+ {
+    "id": "faq-20",
+    "text": "How to book a test drive?\nAnswer:Please select the booking option from the navigation menu and provide your name, contact number, car model, preferred date (YYYY-MM-DD), and time (HH:MM) and booking will be done.",
+    "metadata": { "category": "faq" }
   }
 ]

@@ -9,12 +9,16 @@ import {
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import ChatBot from './ChatBot';
-
+import Notification from './Notification';
 const LandingPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [scrollY, setScrollY] = useState(0);
-
+const [notification, setNotification] = useState({
+  message: '',
+  type: 'success' as 'success' | 'error',
+  isVisible: false
+});
   const features = [
     {
       icon: <Car className="w-8 h-8" />,
@@ -119,8 +123,41 @@ const LandingPage = () => {
       description: "Complete the paperwork and drive away happy"
     }
   ];
+const [selectedMake, setSelectedMake] = useState('');
+const [carModels, setCarModels] = useState<string[]>([]);
 
+const carData = {
+  Maruti: ['Brezza', 'Swift'],
+  Hyundai: ['i20'],
+  Tata: ['Punch'],
+  Kia: ['Seltos'],
+  Mahindra: ['XUV300'],
+  Toyota: ['Urban Cruiser'],
+  Ford: ['EcoSport'],
+  Honda: ['Jazz'],
+  Volkswagen: ['Taigun', 'Polo'],
+  Skoda: ['Slavia'],
+  Renault: ['Kiger'],
+  MG: ['Hector'],
+  Nissan: ['Magnite']
+};
+const [formData, setFormData] = useState({
+  name: '',
+  phone: '',
+  selectedMake: '',
+  selectedModel: '',
+  date: '',
+  time: ''
+});
   useEffect(() => {
+      setFormData({
+    name: '',
+    phone: '',
+    selectedMake: '',
+    selectedModel: '',
+    date: '',
+    time: ''
+  });
     const handleScroll = () => {
       setScrollY(window.scrollY);
       
@@ -141,18 +178,97 @@ const LandingPage = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const NavLink = ({ href, children }: { href: string, children: React.ReactNode }) => (
-    <a 
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  if (!formData.name || !formData.phone || !formData.selectedMake || 
+      !formData.selectedModel || !formData.date || !formData.time) {
+    setNotification({
+      message: 'Please fill in all required fields',
+      type: 'error',
+      isVisible: true
+    });
+    return;
+  }
+
+  try {
+    const resp = await fetch('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: formData.name,
+        phone: formData.phone,
+        carMake: formData.selectedMake,
+        carModel: formData.selectedModel,
+        date: formData.date,
+        time: formData.time
+      })
+    });
+    
+    const result = await resp.json();
+    
+    if (result.success) {
+      setNotification({
+        message: 'Test drive booked successfully! We will contact you shortly.',
+        type: 'success',
+        isVisible: true
+      });
+      setFormData({
+        name: '',
+        phone: '',
+        selectedMake: '',
+        selectedModel: '',
+        date: '',
+        time: ''
+      });
+      setSelectedMake('');
+      setCarModels([]);
+    } else {
+      setNotification({
+        message: result.message || 'Failed to book test drive',
+        type: 'error',
+        isVisible: true
+      });
+    }
+  } catch (error) {
+    console.error('Error booking test drive:', error);
+    setNotification({
+      message: 'Failed to book test drive. Please try again.',
+      type: 'error',
+      isVisible: true
+    });
+  }
+};
+const NavLink = ({ href, children }: { href: string, children: React.ReactNode }) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+    
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  };
+
+  return (
+   <motion.a 
       href={href}
+      onClick={handleClick}
       className={`
-        relative group px-4 py-2 transition-all duration-300
+        relative group px-4 py-2 transition-all duration-300 cursor-pointer
         ${activeSection === href.slice(1) ? 'text-[#F79B72]' : 'text-gray-300'}
       `}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
     >
       {children}
       <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#F79B72] scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-    </a>
+    </motion.a>
   );
+};
 
   return (
     <div className="min-h-screen bg-[#121212]">
@@ -201,31 +317,41 @@ const LandingPage = () => {
 
           {/* Mobile Menu */}
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ 
-              opacity: isMenuOpen ? 1 : 0,
-              height: isMenuOpen ? 'auto' : 0
-            }}
-            className="md:hidden overflow-hidden"
-          >
-            <div className="py-4 space-y-2">
-              {['Home', 'Features', 'Vehicles', 'Contact'].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="block px-4 py-2 text-gray-300 hover:text-[#F79B72] transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item}
-                </a>
-              ))}
-              <div className="pt-2 px-4">
-                <button className="w-full bg-[#F79B72] text-white py-2 rounded-lg hover:bg-[#F79B72]/90 transition-colors">
-                  Get Started
-                </button>
-              </div>
-            </div>
-          </motion.div>
+  initial={{ opacity: 0, height: 0 }}
+  animate={{ 
+    opacity: isMenuOpen ? 1 : 0,
+    height: isMenuOpen ? 'auto' : 0
+  }}
+  className="md:hidden overflow-hidden"
+>
+  <div className="py-4 space-y-2">
+    {['Home', 'Features', 'Vehicles', 'Contact'].map((item) => (
+      <a
+        key={item}
+        href={`#${item.toLowerCase()}`}
+        className="block px-4 py-2 text-gray-300 hover:text-[#F79B72] transition-colors"
+        onClick={(e) => {
+          e.preventDefault();
+          const element = document.getElementById(item.toLowerCase());
+          if (element) {
+            element.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+            setIsMenuOpen(false);
+          }
+        }}
+      >
+        {item}
+      </a>
+    ))}
+    <div className="pt-2 px-4">
+      <button className="w-full bg-[#F79B72] text-white py-2 rounded-lg hover:bg-[#F79B72]/90 transition-colors">
+        Get Started
+      </button>
+    </div>
+  </div>
+</motion.div>
         </div>
       </motion.nav>
 
@@ -264,10 +390,21 @@ const LandingPage = () => {
               transition={{ delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <button className="flex items-center justify-center space-x-2 bg-[#F79B72] text-white px-8 py-4 rounded-lg hover:bg-[#F79B72]/90 transition-all">
-                <span>Browse Vehicles</span>
-                <ArrowRight className="w-5 h-5" />
-              </button>
+              <button 
+  onClick={() => {
+    const element = document.getElementById('vehicles');
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  }}
+  className="flex items-center justify-center space-x-2 bg-[#F79B72] text-white px-8 py-4 rounded-lg hover:bg-[#F79B72]/90 transition-all cursor-pointer"
+>
+  <span>Browse Vehicles</span>
+  <ArrowRight className="w-5 h-5" />
+</button>
               <button className="flex items-center justify-center space-x-2 border border-[#F79B72] text-[#F79B72] px-8 py-4 rounded-lg hover:bg-[#F79B72]/10 transition-all">
                 <span>Learn More</span>
                 <PlusCircle className="w-5 h-5" />
@@ -293,7 +430,7 @@ const LandingPage = () => {
       </section>
 
       {/* Vehicle Categories */}
-      <section className="py-20 bg-[#121212]">
+      <section id="vehicles" className="py-20 bg-[#121212]">
         
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                    <motion.div
@@ -364,7 +501,209 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+      {/* Test Drive Section */}
+<section className="py-20 bg-[#121212] overflow-hidden">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="lg:flex items-start gap-12">
+      {/* Left Content */}
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        className="lg:w-1/3 mb-12 lg:mb-0"
+      >
+        <h2 className="text-4xl font-bold text-[#F79B72] mb-4">
+          Book Your Test Drive
+        </h2>
+        <p className="text-xl text-gray-300 mb-6">
+          Experience your dream car firsthand. Schedule a test drive today and feel the thrill of your future ride.
+        </p>
+        <div className="hidden lg:block">
+          <motion.img
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            src="/Sports.jpg" // Add your image
+            alt="Test Drive"
+            className="rounded-xl"
+          />
+        </div>
+      </motion.div>
 
+      {/* Right Form */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        className="lg:w-2/3"
+      >
+       <form onSubmit={handleSubmit} className="space-y-6 bg-black/20 p-8 rounded-2xl border border-white/10"  suppressHydrationWarning>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              <label className="block text-[#F79B72] mb-2 text-sm">Your Name</label>
+              <input
+  type="text"
+  value={formData.name}
+  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+  placeholder="John Doe"
+  className="w-full p-4 rounded-xl bg-black/40 border border-white/20 text-gray-300 placeholder-gray-500
+    focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200"
+  required
+/>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              <label className="block text-[#F79B72] mb-2 text-sm">Contact Number</label>
+              <input
+  type="tel"
+  value={formData.phone}
+  onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+  placeholder="Your phone number"
+  className="w-full p-4 rounded-xl bg-black/40 border border-white/20 text-gray-300 placeholder-gray-500
+    focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200"
+  required
+/>
+            </motion.div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay: 0.3 }}
+  >
+    <label className="block text-[#F79B72] mb-2 text-sm">Car Make</label>
+<select
+  value={formData.selectedMake}
+  onChange={(e) => {
+    const make = e.target.value;
+    setFormData(prev => ({ 
+      ...prev, 
+      selectedMake: make,
+      selectedModel: '' 
+    }));
+    setSelectedMake(make);
+    setCarModels(make ? carData[make as keyof typeof carData] : []);
+  }}
+  className="w-full p-4 rounded-xl bg-black/40 border border-white/20 text-gray-300
+    focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200
+    [&>option]:bg-[#121212]"
+  required
+  suppressHydrationWarning
+>
+  <option value="">Select Make</option>
+  {Object.keys(carData).map((make) => (
+    <option key={make} value={make}>{make}</option>
+  ))}
+
+</select>
+  </motion.div>
+
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay: 0.4 }}
+  >
+    <label className="block text-[#F79B72] mb-2 text-sm">Car Model</label>
+ <select
+  value={formData.selectedModel}
+  onChange={(e) => {
+    const model = e.target.value;
+    setFormData(prev => ({
+      ...prev,
+      selectedModel: model
+    }));
+  }}
+  className="w-full p-4 rounded-xl bg-black/40 border border-white/20 text-gray-300
+    focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200
+    [&>option]:bg-[#121212]"
+  required
+  disabled={!formData.selectedMake}
+  suppressHydrationWarning
+>
+  <option value="">
+    {formData.selectedMake ? 'Select Model' : 'Please select a make first'}
+  </option>
+  {carModels.map((model) => (
+    <option key={model} value={model}>{model}</option>
+  ))}
+</select>
+  </motion.div>
+</div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+            >
+              <label className="block text-[#F79B72] mb-2 text-sm">Preferred Date</label>
+              <input
+                type="date"
+                value={formData.date}
+                onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
+                className="w-full p-4 rounded-xl bg-black/40 border border-white/20 text-gray-300
+                  focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200
+                  [color-scheme:dark]"
+                required
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
+            >
+              <label className="block text-[#F79B72] mb-2 text-sm">Preferred Time</label>
+              <input
+                type="time"
+                value={formData.time}
+                onChange={(e) => setFormData(prev => ({ ...prev, time: e.target.value }))}
+                className="w-full p-4 rounded-xl bg-black/40 border border-white/20 text-gray-300
+                  focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200
+                  [color-scheme:dark]"
+                required
+              />
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.7 }}
+            className="flex justify-end"
+          >
+            <motion.button
+              type="submit"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-[#F79B72] text-white px-8 py-4 rounded-xl hover:bg-[#F79B72]/90 
+                transition-all duration-200 inline-flex items-center space-x-2"
+            >
+              <span>Schedule Test Drive</span>
+              <Clock className="w-5 h-5" />
+            </motion.button>
+          </motion.div>
+        </form>
+      </motion.div>
+    </div>
+  </div>
+</section>
       {/* Process Section */}
       <section className="py-20 bg-[#121212]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -494,8 +833,12 @@ const LandingPage = () => {
         </div>
       </section>
 
-
-
+<Notification
+  message={notification.message}
+  type={notification.type}
+  isVisible={notification.isVisible}
+  onClose={() => setNotification(prev => ({ ...prev, isVisible: false }))}
+/>
       {/* ChatBot Component */}
       <ChatBot />
     </div>
@@ -503,4 +846,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
