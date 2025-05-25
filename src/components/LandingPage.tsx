@@ -75,7 +75,7 @@ const [notification, setNotification] = useState({
     {
       name: "Electric Vehicles",
       count: 28,
-      image: "/Electric-car.jpg",
+      image: "/electric-car.jpg",
       description: "Embrace the future with our eco-friendly electric lineup"
     },
     {
