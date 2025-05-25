@@ -254,6 +254,74 @@
       "availability": true
     }
   },
+   {
+    "id": "car-16",
+    "text": "BMW M4 Competition (2024) Sports Car priced at ₹1,45,00,000 with 9.8 kmpl mileage. Petrol, Automatic. Features: M Drive Professional, Carbon Fiber Roof, Laser LED Headlights. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "BMW",
+      "model": "M4 Competition",
+      "year": 2024,
+      "type": "Sports",
+      "price": "₹1,45,00,000",
+      "mileage": "9.8 kmpl",
+      "fuel": "Petrol",
+      "transmission": "Automatic",
+      "features": ["M Drive Professional", "Carbon Fiber Roof", "Laser LED Headlights", "M Sport Seats"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-17",
+    "text": "Porsche 718 Cayman (2024) Sports Car at ₹1,35,00,000, mileage 11.3 kmpl. Petrol, PDK Automatic. Features: Sport Chrono Package, PASM, Active Suspension. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Porsche",
+      "model": "718 Cayman",
+      "year": 2024,
+      "type": "Sports",
+      "price": "₹1,35,00,000",
+      "mileage": "11.3 kmpl",
+      "fuel": "Petrol",
+      "transmission": "PDK Automatic",
+      "features": ["Sport Chrono Package", "PASM", "Active Suspension", "Sports Exhaust"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-18",
+    "text": "Mercedes-AMG GT (2023) Sports Car priced at ₹2,10,00,000 with 8.5 kmpl mileage. Petrol, AMG SPEEDSHIFT. Features: Race Mode, Burmester Sound, AMG Ride Control. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Mercedes",
+      "model": "AMG GT",
+      "year": 2023,
+      "type": "Sports",
+      "price": "₹2,10,00,000",
+      "mileage": "8.5 kmpl",
+      "fuel": "Petrol",
+      "transmission": "AMG SPEEDSHIFT",
+      "features": ["Race Mode", "Burmester Sound", "AMG Ride Control", "Carbon Ceramic Brakes"],
+      "availability": true
+    }
+  },
+  {
+    "id": "car-19",
+    "text": "Audi RS5 Sportback (2024) Sports Car at ₹1,25,00,000 with 10.2 kmpl mileage. Petrol, S-Tronic. Features: Quattro AWD, Virtual Cockpit Plus, Sports Differential. Availability: In stock.",
+    "metadata": {
+      "category": "car",
+      "make": "Audi",
+      "model": "RS5 Sportback",
+      "year": 2024,
+      "type": "Sports",
+      "price": "₹1,25,00,000",
+      "mileage": "10.2 kmpl",
+      "fuel": "Petrol",
+      "transmission": "S-Tronic",
+      "features": ["Quattro AWD", "Virtual Cockpit Plus", "Sports Differential", "Matrix LED"],
+      "availability": true
+    }
+  },
   {
     "id": "faq-1",
     "text": "Which cars are available right now?\nAnswer: Currently available models are: Brezza, i20, Seltos, XUV300, Swift, EcoSport, Taigun, Slavia, Kiger, Hector, and Polo.",

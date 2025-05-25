@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { Mail, Phone, Send, Linkedin, Twitter, Instagram } from 'lucide-react';
 import { 
   Menu, X, ArrowRight, Zap, Shield, Users, Star, 
   Car, Award, PhoneCall, Clock, PlusCircle,
@@ -10,6 +11,8 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import ChatBot from './ChatBot';
 import Notification from './Notification';
+import VehicleModal from './VehicleModal';
+import carsData from '../../data.json';
 const LandingPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -51,7 +54,11 @@ const [notification, setNotification] = useState({
       description: "Streamlined buying process with instant approvals."
     }
   ];
-
+const [contactForm, setContactForm] = useState({
+  name: '',
+  email: '',
+  message: ''
+});
   const stats = [
     { number: "500+", label: "Premium Vehicles" },
     { number: "50k+", label: "Happy Customers" },
@@ -62,25 +69,29 @@ const [notification, setNotification] = useState({
   const vehicleCategories = [
     {
       name: "Luxury Sedans",
-      count: 45,
+         type: "Sedan",
+    count: carsData.filter(car => car.metadata?.type === "Sedan").length,
       image: "/luxury-sedan.jpg",
       description: "Experience ultimate comfort with our premium sedan collection"
     },
     {
       name: "Sports Cars",
-      count: 32,
+     type: "Sports",
+    count: carsData.filter(car => car.metadata?.type === "Sports").length,
       image: "/Sports.jpg",
       description: "Feel the adrenaline with high-performance sports vehicles"
     },
     {
-      name: "Electric Vehicles",
-      count: 28,
-      image: "/electric-car.jpg",
-      description: "Embrace the future with our eco-friendly electric lineup"
-    },
+    name: "Hatchbacks",
+    type: "Hatchback",
+    count: carsData.filter(car => car.metadata?.type === "Hatchback").length,
+    image: "/hatchback.jpg",
+    description: "Perfect blend of efficiency and practicality"
+  },
     {
       name: "SUVs",
-      count: 50,
+       type: "SUV",
+    count: carsData.filter(car => car.metadata?.type === "SUV" || car.metadata?.type === "Compact SUV").length,
       image: "/Suv.jpg",
       description: "Discover versatility and comfort in our SUV range"
     }
@@ -125,7 +136,9 @@ const [notification, setNotification] = useState({
   ];
 const [selectedMake, setSelectedMake] = useState('');
 const [carModels, setCarModels] = useState<string[]>([]);
-
+const [isModalOpen, setIsModalOpen] = useState(false);
+const [selectedCategory, setSelectedCategory] = useState('');
+const [filteredVehicles, setFilteredVehicles] = useState([]);
 const carData = {
   Maruti: ['Brezza', 'Swift'],
   Hyundai: ['i20'],
@@ -177,7 +190,42 @@ const [formData, setFormData] = useState({
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+const handleCategoryClick = (category: string, type: string) => {
+  const vehicles = carsData.filter(car => 
+    car.metadata?.type === type || 
+    (type === "SUV" && car.metadata?.type === "Compact SUV")
+  );
+  setFilteredVehicles(vehicles);
+  setSelectedCategory(category);
+  setIsModalOpen(true);
+};
+const handleContactSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  // Validate form
+  if (!contactForm.name || !contactForm.email || !contactForm.message) {
+    setNotification({
+      message: 'Please fill in all fields',
+      type: 'error',
+      isVisible: true
+    });
+    return;
+  }
 
+  // Show success notification
+  setNotification({
+    message: 'Message sent successfully! We will get back to you soon.',
+    type: 'success',
+    isVisible: true
+  });
+
+  // Reset form
+  setContactForm({
+    name: '',
+    email: '',
+    message: ''
+  });
+};
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   
@@ -300,8 +348,9 @@ const NavLink = ({ href, children }: { href: string, children: React.ReactNode }
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
               <NavLink href="#home">Home</NavLink>
-              <NavLink href="#features">Features</NavLink>
               <NavLink href="#vehicles">Vehicles</NavLink>
+              <NavLink href="#bookride">Book Ride</NavLink>
+
               <NavLink href="#contact">Contact</NavLink>
             </div>
 
@@ -463,6 +512,7 @@ const NavLink = ({ href, children }: { href: string, children: React.ReactNode }
       transition: { duration: 0.2 }
     }}
     className="group relative overflow-hidden rounded-xl cursor-pointer"
+     onClick={() => handleCategoryClick(category.name, category.type)}
   >
     <motion.div 
       className="aspect-w-16 aspect-h-9 relative h-[250px]"
@@ -502,7 +552,7 @@ const NavLink = ({ href, children }: { href: string, children: React.ReactNode }
         </div>
       </section>
       {/* Test Drive Section */}
-<section className="py-20 bg-[#121212] overflow-hidden">
+<section id='bookride' className="py-20 bg-[#121212] overflow-hidden">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="lg:flex items-start gap-12">
       {/* Left Content */}
@@ -833,11 +883,193 @@ const NavLink = ({ href, children }: { href: string, children: React.ReactNode }
         </div>
       </section>
 
+
+{/* Contact Section */}
+<section id="contact" className="py-20 bg-[#121212] relative overflow-hidden">
+  {/* Background Pattern */}
+  <div className="absolute inset-0 opacity-5">
+    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+  </div>
+
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="text-center mb-16"
+    >
+      <h2 className="text-4xl font-bold text-[#F79B72] mb-4">
+        Get In Touch
+      </h2>
+      <p className="text-xl text-gray-300">
+        Have questions? We'd love to hear from you.
+      </p>
+    </motion.div>
+
+    <div className="grid lg:grid-cols-3 gap-12">
+      {/* Contact Info */}
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        className="space-y-8"
+      >
+        <motion.div 
+          whileHover={{ scale: 1.02 }}
+          className="flex items-start space-x-4 bg-black/40 p-6 rounded-xl border border-white/10"
+        >
+          <div className="bg-[#F79B72]/10 p-3 rounded-lg">
+            <Phone className="w-6 h-6 text-[#F79B72]" />
+          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-1">Phone</h3>
+            <p className="text-gray-300">+91 98985 57401</p>
+            <p className="text-gray-300">Mon-Fri 9am-6pm</p>
+          </div>
+        </motion.div>
+
+        <motion.div 
+          whileHover={{ scale: 1.02 }}
+          className="flex items-start space-x-4 bg-black/40 p-6 rounded-xl border border-white/10"
+        >
+          <div className="bg-[#F79B72]/10 p-3 rounded-lg">
+            <Mail className="w-6 h-6 text-[#F79B72]" />
+          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-1">Email</h3>
+            <p className="text-gray-300">sahil16december@gmail.com</p>
+            
+          </div>
+        </motion.div>
+
+        <motion.div 
+          whileHover={{ scale: 1.02 }}
+          className="flex items-start space-x-4 bg-black/40 p-6 rounded-xl border border-white/10"
+        >
+          <div className="bg-[#F79B72]/10 p-3 rounded-lg">
+            <MapPin className="w-6 h-6 text-[#F79B72]" />
+          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-1">Location</h3>
+            <p className="text-gray-300">A-2 Al-Saad Park</p>
+            <p className="text-gray-300">Anand, Gujarat</p>
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* Contact Form */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="lg:col-span-2"
+      >
+        <form onSubmit={handleContactSubmit} className="space-y-6 bg-black/40 p-8 rounded-2xl border border-white/10">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+    >
+      <label className="block text-[#F79B72] mb-2 text-sm">Name</label>
+      <input
+        type="text"
+        value={contactForm.name}
+        onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
+        className="w-full p-4 rounded-xl bg-black/40 border border-white/20 text-gray-300
+          focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200"
+        placeholder="John Doe"
+        required
+      />
+    </motion.div>
+
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+    >
+      <label className="block text-[#F79B72] mb-2 text-sm">Email</label>
+      <input
+        type="email"
+        value={contactForm.email}
+        onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+        className="w-full p-4 rounded-xl bg-black/40 border border-white/20 text-gray-300
+          focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200"
+        placeholder="john@example.com"
+        required
+      />
+    </motion.div>
+  </div>
+
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+  >
+    <label className="block text-[#F79B72] mb-2 text-sm">Message</label>
+    <textarea
+      value={contactForm.message}
+      onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
+      rows={6}
+      className="w-full p-4 rounded-xl bg-black/40 border border-white/20 text-gray-300
+        focus:outline-none focus:border-[#F79B72] focus:ring-1 focus:ring-[#F79B72] transition-all duration-200"
+      placeholder="Your message..."
+      required
+    />
+  </motion.div>
+
+  <motion.div className="flex justify-end">
+    <motion.button
+      type="submit"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className="bg-[#F79B72] text-white px-8 py-4 rounded-xl hover:bg-[#F79B72]/90 
+        transition-all duration-200 inline-flex items-center space-x-2"
+    >
+      <span>Send Message</span>
+      <Send className="w-5 h-5" />
+    </motion.button>
+  </motion.div>
+</form>
+      </motion.div>
+    </div>
+
+    {/* Social Links */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="flex justify-center space-x-6 mt-16"
+    >
+      {[
+        { icon: <Linkedin className="w-6 h-6" />, href: "https://www.linkedin.com/in/shahil-vora/" },
+        { icon: <Twitter className="w-6 h-6" />, href: "https://x.com/ShahilVora" },
+        { icon: <Instagram className="w-6 h-6" />, href: "https://www.instagram.com/_sahil.16__?igsh=MW4yaWptdTZkaXUwbQ==" },
+      ].map((social, index) => (
+        <motion.a
+          key={index}
+          href={social.href}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="text-gray-400 hover:text-[#F79B72] transition-colors duration-200"
+        >
+          {social.icon}
+        </motion.a>
+      ))}
+    </motion.div>
+  </div>
+</section>
 <Notification
   message={notification.message}
   type={notification.type}
   isVisible={notification.isVisible}
   onClose={() => setNotification(prev => ({ ...prev, isVisible: false }))}
+/>
+<VehicleModal
+  isOpen={isModalOpen}
+  onClose={() => setIsModalOpen(false)}
+  vehicles={filteredVehicles}
+  category={selectedCategory}
 />
       {/* ChatBot Component */}
       <ChatBot />
