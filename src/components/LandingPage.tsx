@@ -8,7 +8,7 @@ import {
   CheckCircle, Settings, DollarSign, MapPin 
 } from 'lucide-react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import ChatBot from './ChatBot';
 import Notification from './Notification';
 import VehicleModal from './VehicleModal';
@@ -138,7 +138,26 @@ const [selectedMake, setSelectedMake] = useState('');
 const [carModels, setCarModels] = useState<string[]>([]);
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [selectedCategory, setSelectedCategory] = useState('');
-const [filteredVehicles, setFilteredVehicles] = useState([]);
+const [showScrollTop, setShowScrollTop] = useState(false);
+type Vehicle = {
+  id: string;
+  text: string;
+  metadata: {
+    category: string;
+    make: string;
+    model: string;
+    year: number;
+    type: string;
+    price: string;
+    mileage: string;
+    fuel: string;
+    transmission: string;
+    features: string[];
+    availability: boolean;
+  };
+};
+
+const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>([]);
 const carData = {
   Maruti: ['Brezza', 'Swift'],
   Hyundai: ['i20'],
@@ -190,10 +209,30 @@ const [formData, setFormData] = useState({
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  useEffect(() => {
+  const handleScroll = () => {
+    setShowScrollTop(window.scrollY > 500);
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
 const handleCategoryClick = (category: string, type: string) => {
-  const vehicles = carsData.filter(car => 
-    car.metadata?.type === type || 
-    (type === "SUV" && car.metadata?.type === "Compact SUV")
+  const vehicles = carsData.filter(
+    (car): car is Vehicle =>
+      (car.metadata?.type === type ||
+        (type === "SUV" && car.metadata?.type === "Compact SUV")) &&
+      car.metadata &&
+      typeof car.metadata.make === 'string' &&
+      typeof car.metadata.model === 'string' &&
+      typeof car.metadata.year === 'number' &&
+      typeof car.metadata.type === 'string' &&
+      typeof car.metadata.price === 'string' &&
+      typeof car.metadata.mileage === 'string' &&
+      typeof car.metadata.fuel === 'string' &&
+      typeof car.metadata.transmission === 'string' &&
+      Array.isArray(car.metadata.features) &&
+      typeof car.metadata.availability === 'boolean'
   );
   setFilteredVehicles(vehicles);
   setSelectedCategory(category);
@@ -1059,6 +1098,42 @@ const NavLink = ({ href, children }: { href: string, children: React.ReactNode }
     </motion.div>
   </div>
 </section>
+{/* Scroll to Top Button */}
+<AnimatePresence>
+  {showScrollTop && (
+    <motion.button
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.5 }}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      className="fixed bottom-6 right-24 z-50 bg-[#F79B72] text-white p-3 rounded-full shadow-lg hover:bg-[#F79B72]/90 
+        transition-all duration-200 border border-white/10"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+    >
+      <motion.div
+        animate={{ y: [0, -4, 0] }}
+        transition={{ repeat: Infinity, duration: 1.5 }}
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          className="h-6 w-6" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M5 10l7-7m0 0l7 7m-7-7v18" 
+          />
+        </svg>
+      </motion.div>
+    </motion.button>
+  )}
+</AnimatePresence>
+
 <Notification
   message={notification.message}
   type={notification.type}
