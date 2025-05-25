@@ -67,6 +67,12 @@ The chatbot implementation follows this architecture:
 - AWS Cloud infrastructure
 - Environment configuration
 
+## 🌐 Live Demo
+
+Experience AutoVibe in action: [AutoVibe Live Demo](https://auto-vibe-neon.vercel.app/)
+
+> Note: For the best experience, use modern browsers like Chrome, Firefox, or Edge.
+
 ## 📦 Installation
 
 1. Clone the repository:
